@@ -188,9 +188,10 @@
             margin-top: 0.2rem;
         }
 
+        /* Logo - INCREASED SIZE */
         .school-logo {
-            width: 70px;
-            height: 70px;
+            width: 85px;
+            height: 85px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -204,7 +205,7 @@
         }
 
         .school-logo i {
-            font-size: 3rem;
+            font-size: 3.5rem;
             color: var(--primary-accent);
             line-height: 1;
         }
@@ -1649,7 +1650,7 @@
             line-height: 1.8;
         }
 
-        /* Updated Newsletter Banner - Mobile Friendly */
+        /* Newsletter Banner - Mobile Friendly */
         .newsletter-banner {
             grid-column: span 2;
             background: linear-gradient(135deg, var(--islamic-green), #2d6a4f);
@@ -2080,13 +2081,14 @@
                 margin-top: 0.1rem;
             }
             
+            /* Logo - INCREASED SIZE on mobile */
             .school-logo {
-                width: 50px;
-                height: 50px;
+                width: 60px;
+                height: 60px;
             }
             
             .school-logo i {
-                font-size: 2.2rem;
+                font-size: 2.7rem;
             }
             
             .search-section {
@@ -2315,13 +2317,14 @@
                 font-size: 0.7rem;
             }
             
+            /* Logo - INCREASED SIZE on small mobile */
             .school-logo {
-                width: 45px;
-                height: 45px;
+                width: 55px;
+                height: 55px;
             }
             
             .school-logo i {
-                font-size: 2rem;
+                font-size: 2.4rem;
             }
             
             .search-container {
@@ -2409,13 +2412,14 @@
                 font-size: 0.65rem;
             }
             
+            /* Logo - INCREASED SIZE on extra small mobile */
             .school-logo {
-                width: 40px;
-                height: 40px;
+                width: 50px;
+                height: 50px;
             }
             
             .school-logo i {
-                font-size: 1.8rem;
+                font-size: 2.2rem;
             }
             
             .search-container {
@@ -3477,7 +3481,7 @@
                 item.addEventListener('click', () => switchTab(item.dataset.tab));
             });
 
-            // Carousel functionality
+            // Carousel functionality - CHANGED TO 2.5 SECONDS
             let currentSlideIndex = 0;
             const slides = document.querySelectorAll('.carousel-slide');
             const dots = document.querySelectorAll('.dot');
@@ -3513,9 +3517,10 @@
                 showSlide(index - 1);
             };
 
+            // Changed from 1500ms (1.5s) to 2500ms (2.5s)
             let slideInterval = setInterval(() => {
                 showSlide(currentSlideIndex + 1);
-            }, 1500);
+            }, 2500); // 2.5 seconds
 
             const carousel = document.querySelector('.carousel-container');
             if (carousel) {
@@ -3527,7 +3532,7 @@
                     if (slideInterval) clearInterval(slideInterval);
                     slideInterval = setInterval(() => {
                         showSlide(currentSlideIndex + 1);
-                    }, 1500);
+                    }, 2500); // 2.5 seconds
                 });
                 
                 carousel.addEventListener('touchstart', () => {
@@ -3539,7 +3544,7 @@
                         if (slideInterval) clearInterval(slideInterval);
                         slideInterval = setInterval(() => {
                             showSlide(currentSlideIndex + 1);
-                        }, 1500);
+                        }, 2500); // 2.5 seconds
                     }, 3000);
                 });
             }
