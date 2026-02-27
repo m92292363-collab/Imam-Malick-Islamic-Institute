@@ -1649,6 +1649,7 @@
             line-height: 1.8;
         }
 
+        /* Updated Newsletter Banner - Mobile Friendly */
         .newsletter-banner {
             grid-column: span 2;
             background: linear-gradient(135deg, var(--islamic-green), #2d6a4f);
@@ -1692,6 +1693,8 @@
             border-radius: 60px;
             padding: 0.3rem;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
         }
 
         .newsletter-input input {
@@ -1702,6 +1705,7 @@
             min-width: 280px;
             outline: none;
             background: transparent;
+            flex: 1;
         }
 
         .newsletter-input button {
@@ -1714,6 +1718,7 @@
             cursor: pointer;
             transition: all 0.2s ease;
             font-size: 1rem;
+            white-space: nowrap;
         }
 
         .newsletter-input button:hover {
@@ -2240,19 +2245,44 @@
                 min-height: 180px;
             }
             
-            .newsletter-input {
+            /* Mobile-friendly newsletter */
+            .newsletter-banner {
+                padding: 1.5rem;
                 flex-direction: column;
-                background: transparent;
-                gap: 0.6rem;
+                align-items: stretch;
+                gap: 1.2rem;
+                text-align: center;
             }
             
-            .newsletter-input input,
-            .newsletter-input button {
-                width: 100%;
+            .newsletter-banner h3 {
+                font-size: 1.4rem;
+                justify-content: center;
+                margin-bottom: 0.3rem;
             }
-
+            
+            .newsletter-banner p {
+                font-size: 0.95rem;
+                max-width: 100%;
+                margin-bottom: 0.5rem;
+            }
+            
+            .newsletter-input {
+                flex-direction: row;
+                padding: 0.2rem;
+                max-width: 100%;
+            }
+            
             .newsletter-input input {
-                font-size: 16px;
+                padding: 0.8rem 1rem;
+                font-size: 14px;
+                min-width: 0;
+                width: 60%;
+            }
+            
+            .newsletter-input button {
+                padding: 0.8rem 1.2rem;
+                font-size: 0.9rem;
+                width: 40%;
             }
             
             .login-section {
@@ -2326,6 +2356,40 @@
             .community-title {
                 font-size: 1.4rem;
             }
+            
+            /* Newsletter for small mobile */
+            .newsletter-banner {
+                padding: 1.2rem;
+            }
+            
+            .newsletter-banner h3 {
+                font-size: 1.3rem;
+            }
+            
+            .newsletter-banner p {
+                font-size: 0.9rem;
+            }
+            
+            .newsletter-input {
+                flex-direction: column;
+                background: transparent;
+                gap: 0.6rem;
+            }
+            
+            .newsletter-input input,
+            .newsletter-input button {
+                width: 100%;
+                border-radius: 40px;
+            }
+            
+            .newsletter-input input {
+                background: white;
+                padding: 0.8rem 1rem;
+            }
+            
+            .newsletter-input button {
+                padding: 0.8rem;
+            }
         }
 
         @media (max-width: 380px) {
@@ -2393,6 +2457,24 @@
             
             .community-title {
                 font-size: 1.3rem;
+            }
+            
+            /* Newsletter for extra small */
+            .newsletter-banner {
+                padding: 1rem;
+            }
+            
+            .newsletter-banner h3 {
+                font-size: 1.2rem;
+                gap: 0.5rem;
+            }
+            
+            .newsletter-banner h3 i {
+                font-size: 1.5rem;
+            }
+            
+            .newsletter-banner p {
+                font-size: 0.85rem;
             }
         }
 
@@ -2861,7 +2943,7 @@
                                 </div>
                             </div>
 
-                            <!-- Newsletter Banner -->
+                            <!-- Newsletter Banner - Mobile Friendly -->
                             <div class="newsletter-banner" id="newsletter-section">
                                 <div>
                                     <h3><i class="fas fa-envelope-open-text"></i> <span data-en="Stay Updated" data-ar="ابق على اطلاع">ابق على اطلاع</span></h3>
@@ -2952,7 +3034,7 @@
                 
                 <div class="footer-social">
                     <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a> <!-- Real Instagram logo -->
                     <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
                 </div>
                 
