@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Tallinding Islamic Institute · Excellence in Islamic Education</title>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -51,11 +51,21 @@
             
             --news-overlay: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.7) 100%);
             --category-bg: #FFB347;
+            
+            /* Search results */
+            --search-results-bg: white;
+            --search-results-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            --search-result-hover: #f5f5f5;
+            --search-result-border: #eaeaea;
+            
+            /* Highlight animation */
+            --highlight-color: rgba(255, 179, 71, 0.3);
         }
 
         html {
             font-size: 16px;
             -webkit-text-size-adjust: 100%;
+            scroll-behavior: smooth;
         }
 
         body {
@@ -105,15 +115,15 @@
             background: var(--bg-teal-soft);
             padding: 0.15rem;
             border-radius: 30px;
-            transform: scale(0.85);
+            transform: scale(0.9);
         }
 
         .lang-switch button {
             background: transparent;
             border: none;
-            padding: 0.2rem 0.6rem;
+            padding: 0.3rem 0.8rem;
             border-radius: 30px;
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             font-weight: 600;
             cursor: pointer;
             color: var(--text-dark);
@@ -128,12 +138,12 @@
         .nav-right {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 1.2rem;
         }
 
         .school-logo {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -146,26 +156,34 @@
             display: block;
         }
 
-        .institute-name {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--islamic-green);
-            letter-spacing: 0.5px;
-            white-space: nowrap;
+        .school-logo i {
+            font-size: 3rem;
+            color: var(--primary-accent);
         }
 
-        /* ===== SEARCH BAR - COMPLETELY STATIC AND SHORT ===== */
+        .institute-name {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--islamic-green);
+            letter-spacing: 1px;
+            white-space: nowrap;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* ===== SEARCH BAR WITH RESULTS ===== */
         .search-section {
-            margin: 0.2rem 0 0.8rem; /* Reduced top margin to move it up slightly */
+            margin: 0.2rem 0 0.8rem;
             width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 0;
+            position: relative;
+            z-index: 1000;
         }
 
         .search-container {
-            width: 75%; /* Smaller width on all devices */
+            width: 75%;
             max-width: 300px;
             margin: 0 auto;
             position: relative;
@@ -179,7 +197,7 @@
             border-radius: 30px;
             border: 1px solid var(--search-border);
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
-            height: 36px; /* Fixed shorter height */
+            height: 36px;
             box-shadow: 0 1px 4px rgba(0,0,0,0.03);
             width: 100%;
         }
@@ -208,7 +226,7 @@
             padding: 0 35px 0 35px;
             border: none;
             border-radius: 30px;
-            font-size: 0.85rem;
+            font-size: 16px;
             background: transparent;
             outline: none;
             color: var(--text-dark);
@@ -218,12 +236,150 @@
         .search-input::placeholder {
             color: #999;
             font-weight: 400;
-            font-size: 0.8rem;
+            font-size: 14px;
+        }
+
+        /* Search Results Dropdown */
+        .search-results {
+            position: absolute;
+            top: calc(100% + 5px);
+            left: 0;
+            right: 0;
+            background: var(--search-results-bg);
+            border-radius: 15px;
+            box-shadow: var(--search-results-shadow);
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1001;
+            border: 1px solid var(--search-result-border);
+            direction: rtl;
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-result-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--search-result-border);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            text-align: right;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-item:hover {
+            background-color: var(--search-result-hover);
+        }
+
+        .search-result-item .result-title {
+            font-weight: 600;
+            color: var(--islamic-green);
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .search-result-item .result-category {
+            font-size: 12px;
+            color: var(--primary-accent);
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .search-result-item .result-preview {
+            font-size: 13px;
+            color: var(--text-light);
+            line-height: 1.4;
+        }
+
+        .search-result-item .result-title i,
+        .search-result-item .result-category i {
+            margin-left: 5px;
+            font-size: 12px;
+        }
+
+        .no-results {
+            padding: 20px;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .no-results i {
+            color: var(--primary-accent);
+            margin-left: 5px;
+        }
+
+        /* Highlight animation for sections */
+        @keyframes highlightPulse {
+            0% {
+                background-color: var(--highlight-color);
+                box-shadow: 0 0 0 0 rgba(255, 179, 71, 0.4);
+            }
+            50% {
+                background-color: rgba(255, 179, 71, 0.5);
+                box-shadow: 0 0 20px 5px rgba(255, 179, 71, 0.3);
+            }
+            100% {
+                background-color: var(--highlight-color);
+                box-shadow: 0 0 0 0 rgba(255, 179, 71, 0.4);
+            }
+        }
+
+        .section-highlight {
+            animation: highlightPulse 1.5s ease-in-out;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        /* Target section styling for better visibility */
+        .target-section {
+            scroll-margin-top: 80px; /* Offset for fixed header */
+        }
+
+        /* Content cards for better presentation */
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid rgba(30, 90, 58, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .content-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: var(--primary-accent);
+        }
+
+        .content-card h4 {
+            color: var(--islamic-green);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .content-card h4 i {
+            color: var(--primary-accent);
+        }
+
+        .content-card p {
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-bottom: 1rem;
         }
 
         /* ===== TABS SECTION ===== */
         .tabs-section {
-            margin: 0.2rem 0 1.5rem; /* Reduced top margin to bring tabs closer to search */
+            margin: 0.2rem 0 1.5rem;
             width: 100%;
             background: white;
             border-radius: 12px;
@@ -1480,7 +1636,7 @@
             border: none;
             padding: 1rem 1.5rem;
             border-radius: 60px;
-            font-size: 1rem;
+            font-size: 16px;
             min-width: 280px;
             outline: none;
             background: transparent;
@@ -1618,7 +1774,7 @@
             padding: 0.8rem 1.2rem;
             border: 1px solid rgba(30, 90, 58, 0.2);
             border-radius: 30px;
-            font-size: 0.95rem;
+            font-size: 16px;
             outline: none;
             transition: all 0.2s;
             background: white;
@@ -1642,6 +1798,7 @@
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
+            font-size: 1rem;
         }
 
         .login-form button:hover {
@@ -1826,25 +1983,56 @@
                 padding: 0 0.8rem;
             }
             
-            /* Search bar - COMPLETELY FIXED */
+            /* Navbar adjustments for mobile */
+            .navbar {
+                flex-direction: column;
+                gap: 0.4rem;
+                padding: 0.6rem 0;
+            }
+            
+            .nav-left, .nav-right {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .nav-right {
+                gap: 1rem;
+            }
+            
+            .institute-name {
+                font-size: 1.4rem;
+                white-space: normal;
+                text-align: center;
+            }
+            
+            .school-logo {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .school-logo i {
+                font-size: 2.5rem;
+            }
+            
+            /* Search bar */
             .search-section {
                 margin: 0.1rem 0 0.6rem;
                 padding: 0;
             }
             
             .search-container {
-                width: 70%; /* Even smaller on mobile */
+                width: 70%;
                 max-width: 250px;
                 margin: 0 auto;
             }
             
             .search-wrapper {
-                height: 34px; /* Consistent shorter height */
+                height: 34px;
                 border-radius: 25px;
             }
             
             .search-input {
-                font-size: 0.8rem;
+                font-size: 16px;
                 padding: 0 32px 0 32px;
                 width: 100%;
                 text-align: right;
@@ -1853,6 +2041,15 @@
             .search-icon {
                 left: 10px;
                 font-size: 0.8rem;
+            }
+
+            .search-results {
+                max-height: 300px;
+                font-size: 14px;
+            }
+
+            .search-result-item {
+                padding: 10px 12px;
             }
             
             /* Tabs - adjusted spacing */
@@ -1883,29 +2080,6 @@
             /* Image box larger */
             .carousel-slides {
                 padding-bottom: 56.25%;
-            }
-            
-            /* Navbar */
-            .navbar {
-                flex-direction: column;
-                gap: 0.4rem;
-                padding: 0.6rem 0;
-            }
-            
-            .nav-left, .nav-right {
-                width: 100%;
-                justify-content: center;
-            }
-            
-            .institute-name {
-                font-size: 1rem;
-                white-space: normal;
-                text-align: center;
-            }
-            
-            .school-logo {
-                width: 40px;
-                height: 40px;
             }
             
             /* Welcome section */
@@ -2002,6 +2176,10 @@
             .newsletter-input button {
                 width: 100%;
             }
+
+            .newsletter-input input {
+                font-size: 16px;
+            }
             
             /* More section */
             .login-section {
@@ -2011,12 +2189,29 @@
             .login-card {
                 padding: 1.2rem;
             }
+
+            .login-form input {
+                font-size: 16px;
+            }
         }
 
         /* Small mobile devices */
         @media (max-width: 480px) {
             .container {
                 padding: 0 0.6rem;
+            }
+            
+            .institute-name {
+                font-size: 1.2rem;
+            }
+            
+            .school-logo {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .school-logo i {
+                font-size: 2.2rem;
             }
             
             .search-container {
@@ -2030,7 +2225,7 @@
             }
             
             .search-input {
-                font-size: 0.75rem;
+                font-size: 16px;
                 padding: 0 28px 0 28px;
             }
             
@@ -2055,6 +2250,19 @@
                 padding: 0 0.5rem;
             }
             
+            .institute-name {
+                font-size: 1.1rem;
+            }
+            
+            .school-logo {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .school-logo i {
+                font-size: 2rem;
+            }
+            
             .search-container {
                 width: 80%;
                 max-width: 200px;
@@ -2066,7 +2274,7 @@
             }
             
             .search-input {
-                font-size: 0.7rem;
+                font-size: 16px;
                 padding: 0 26px 0 26px;
             }
             
@@ -2086,10 +2294,6 @@
             
             .tab-item i {
                 font-size: 0.7rem;
-            }
-            
-            .institute-name {
-                font-size: 0.85rem;
             }
             
             .welcome-title {
@@ -2120,22 +2324,24 @@
                 </div>
             </div>
             <div class="nav-right">
-                <div class="institute-name">
-                    <span data-en="TALLINDING ISLAMIC INSTITUTE" data-ar="معهد تلندينج الإسلامي">معهد تلندينج الإسلامي</span>
+                <div class="institute-name" id="mainTitle">
+                    TALLINDING ISLAMIC INSTITUTE
                 </div>
                 <div class="school-logo">
-                    <img src="path/to/your-school-logo.png" alt="Tallinding Islamic Institute Logo" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\'color: var(--primary-accent); font-size: 2rem;\'><i class=\'fas fa-school\'></i></span>';">
+                    <i class="fas fa-school"></i>
                 </div>
             </div>
         </nav>
 
-        <!-- Search Bar - COMPLETELY STATIC AND SHORT -->
+        <!-- Search Bar with Results -->
         <div class="search-section">
             <div class="search-container" id="searchContainer">
                 <div class="search-wrapper">
                     <i class="fas fa-search search-icon"></i>
                     <input type="text" class="search-input" id="searchInput" placeholder="البحث في المعهد الإسلامي تلندينج..." autocomplete="off">
                 </div>
+                <!-- Search Results Dropdown -->
+                <div class="search-results" id="searchResults"></div>
             </div>
         </div>
 
@@ -2183,25 +2389,25 @@
                                 <!-- Slide 1 -->
                                 <div class="carousel-slide active">
                                     <div class="image-container">
-                                        <img src="t1">
+                                        <img src="https://images.unsplash.com/photo-1542816417-098367827cdc?w=1200&auto=format" alt="The Holy Kaaba - Mecca" onerror="this.src='https://via.placeholder.com/1200x540/1e3a5f/ffffff?text=Image+1'">
                                     </div>
                                 </div>
                                 <!-- Slide 2 -->
                                 <div class="carousel-slide">
                                     <div class="image-container">
-                                        <img src="ht">
+                                        <img src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?w=1200&auto=format" alt="Mecca at Night" onerror="this.src='https://via.placeholder.com/1200x540/1e3a5f/ffffff?text=Image+2'">
                                     </div>
                                 </div>
                                 <!-- Slide 3 -->
                                 <div class="carousel-slide">
                                     <div class="image-container">
-                                        <img src="t2">
+                                        <img src="https://images.unsplash.com/photo-1584273143981-41c073dfe8f8?w=1200&auto=format" alt="Close up of Kaaba" onerror="this.src='https://via.placeholder.com/1200x540/1e3a5f/ffffff?text=Image+3'">
                                     </div>
                                 </div>
                                 <!-- Slide 4 -->
                                 <div class="carousel-slide">
                                     <div class="image-container">
-                                        <img src="STAFF">
+                                        <img src="https://images.unsplash.com/photo-1597170349392-54a1a7a70433?w=1200&auto=format" alt="Masjid an-Nabawi" onerror="this.src='https://via.placeholder.com/1200x540/1e3a5f/ffffff?text=Image+4'">
                                     </div>
                                 </div>
                                 <!-- Slide 5 -->
@@ -2251,7 +2457,7 @@
                     </div>
 
                     <!-- Welcome Section -->
-                    <div class="welcome-section">
+                    <div class="welcome-section" id="welcome-section">
                         <div class="welcome-card">
                             <div class="welcome-content">
                                 <h2 class="welcome-title" data-en="Welcome to Tallinding Islamic Institute" data-ar="مرحباً بكم في معهد تلندينج الإسلامي">
@@ -2275,7 +2481,7 @@
                     </div>
                     
                     <!-- Mission Section -->
-                    <div class="mission-section-home">
+                    <div class="mission-section-home" id="mission-section">
                         <div class="mission-card-home">
                             <div class="mission-content">
                                 <h3 class="section-title" data-en="OUR MISSION" data-ar="مَهَمَّتُنَا">OUR MISSION</h3>
@@ -2290,7 +2496,7 @@
                     </div>
                     
                     <!-- Vision Section -->
-                    <div class="vision-section-home">
+                    <div class="vision-section-home" id="vision-section">
                         <div class="vision-card-home">
                             <div class="vision-content">
                                 <h3 class="section-title" data-en="OUR VISION" data-ar="رُؤْيَتُنَا">OUR VISION</h3>
@@ -2312,7 +2518,7 @@
 
                 <!-- Tab 2: About - WITH GAMBIA ISLAMIC UNION -->
                 <div class="tab-pane" id="tab2">
-                    <div class="about-section">
+                    <div class="about-section" id="about-section">
                         <div class="about-content">
                             <h2>
                                 <i class="fas fa-info-circle"></i> 
@@ -2330,7 +2536,7 @@
                         </div>
                     </div>
 
-                    <div class="gambia-union-card" style="margin-top: 2rem;">
+                    <div class="gambia-union-card" id="gambia-union-section" style="margin-top: 2rem;">
                         <div class="union-icon">
                             <i class="fas fa-mosque"></i>
                         </div>
@@ -2365,7 +2571,7 @@
 
                 <!-- Tab 3: Admission - WITH DEADLINE BOX -->
                 <div class="tab-pane" id="tab3">
-                    <div class="admission-section">
+                    <div class="admission-section" id="admission-section">
                         <div class="admission-header">
                             <h2>
                                 <i class="fas fa-graduation-cap"></i>
@@ -2376,7 +2582,7 @@
                             </p>
                         </div>
 
-                        <div class="programs-card">
+                        <div class="programs-card" id="programs-section">
                             <div class="requirement-icon">
                                 <i class="fas fa-book-open"></i>
                             </div>
@@ -2403,7 +2609,7 @@
                             </div>
                         </div>
 
-                        <div class="documents-card">
+                        <div class="documents-card" id="documents-section">
                             <div class="requirement-icon">
                                 <i class="fas fa-file-alt"></i>
                             </div>
@@ -2417,7 +2623,7 @@
                             </ul>
                         </div>
 
-                        <div class="deadline-box">
+                        <div class="deadline-box" id="deadline-section">
                             <h4 data-en="Application Deadline" data-ar="الموعد النهائي للتقديم">Application Deadline</h4>
                             <div class="date" data-en="August 15, 2026" data-ar="١٥ أغسطس ٢٠٢٦">August 15, 2026</div>
                             <p data-en="Late applications may be considered on a case-by-case basis" data-ar="يمكن النظر في الطلبات المتأخرة على أساس كل حالة على حدة">
@@ -2436,7 +2642,7 @@
 
                 <!-- Tab 4: News -->
                 <div class="tab-pane" id="tab4">
-                    <div class="news-section">
+                    <div class="news-section" id="news-section">
                         <div class="news-header">
                             <h2>
                                 <i class="fas fa-newspaper"></i>
@@ -2446,7 +2652,7 @@
 
                         <div class="news-grid">
                             <!-- Featured News -->
-                            <div class="news-card featured">
+                            <div class="news-card featured" id="graduation-news">
                                 <div class="news-image">
                                     <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=1200&auto=format" alt="Graduation ceremony">
                                 </div>
@@ -2470,7 +2676,7 @@
                             </div>
 
                             <!-- News Card 1 -->
-                            <div class="news-card">
+                            <div class="news-card" id="academic-year-news">
                                 <div class="news-image">
                                     <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&auto=format" alt="New academic year">
                                 </div>
@@ -2494,7 +2700,7 @@
                             </div>
 
                             <!-- News Card 2 -->
-                            <div class="news-card">
+                            <div class="news-card" id="quran-competition-news">
                                 <div class="news-image">
                                     <img src="https://images.unsplash.com/photo-1585032226651-759b368d7246?w=800&auto=format" alt="Quran competition">
                                 </div>
@@ -2518,7 +2724,7 @@
                             </div>
 
                             <!-- News Card 3 -->
-                            <div class="news-card">
+                            <div class="news-card" id="open-day-news">
                                 <div class="news-image">
                                     <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&auto=format" alt="Open day">
                                 </div>
@@ -2542,7 +2748,7 @@
                             </div>
 
                             <!-- Newsletter Banner -->
-                            <div class="newsletter-banner">
+                            <div class="newsletter-banner" id="newsletter-section">
                                 <div>
                                     <h3><i class="fas fa-envelope-open-text"></i> <span data-en="Stay Updated" data-ar="ابق على اطلاع">Stay Updated</span></h3>
                                     <p data-en="Subscribe to our newsletter for the latest news and events" data-ar="اشترك في نشرتنا الإخبارية لآخر الأخبار والفعاليات">
@@ -2560,7 +2766,7 @@
 
                 <!-- Tab 5: More -->
                 <div class="tab-pane" id="tab5">
-                    <div class="more-section">
+                    <div class="more-section" id="more-section">
                         <div class="more-header">
                             <h2>
                                 <i class="fas fa-ellipsis-h"></i>
@@ -2570,7 +2776,7 @@
 
                         <div class="login-section">
                             <!-- Student Login Card -->
-                            <div class="login-card student">
+                            <div class="login-card student" id="student-login">
                                 <div class="login-icon">
                                     <i class="fas fa-user-graduate"></i>
                                 </div>
@@ -2590,7 +2796,7 @@
                             </div>
 
                             <!-- Teacher Login Card -->
-                            <div class="login-card teacher">
+                            <div class="login-card teacher" id="teacher-login">
                                 <div class="login-icon">
                                     <i class="fas fa-chalkboard-teacher"></i>
                                 </div>
@@ -2616,7 +2822,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" id="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="contact-stack">
@@ -2655,8 +2861,9 @@
         (function() {
             'use strict';
             
-            // Language switching
+            // Language switching - Main title stays in English
             const langButtons = document.querySelectorAll('.lang-btn');
+            const mainTitle = document.getElementById('mainTitle');
             
             function switchLanguage(lang) {
                 langButtons.forEach(btn => {
@@ -2664,8 +2871,12 @@
                     btn.classList.toggle('active', btnLang === lang);
                 });
                 
+                // Update all elements with data-en and data-ar attributes (except main title)
                 document.querySelectorAll('[data-en][data-ar]').forEach(element => {
-                    element.textContent = element.getAttribute(lang === 'en' ? 'data-en' : 'data-ar');
+                    // Skip the main title element
+                    if (element.id !== 'mainTitle') {
+                        element.textContent = element.getAttribute(lang === 'en' ? 'data-en' : 'data-ar');
+                    }
                 });
                 
                 const searchInput = document.getElementById('searchInput');
@@ -2680,15 +2891,350 @@
                 });
             });
             
-            // Search bar - COMPLETELY STATIC (no expanding)
+            // ===== SEARCH FUNCTIONALITY =====
             const searchInput = document.getElementById('searchInput');
+            const searchResults = document.getElementById('searchResults');
+            
+            // Search database - all searchable content on the page
+            const searchDatabase = [
+                // Home tab content
+                { 
+                    title: { en: "Welcome Page", ar: "الصفحة الرئيسية" },
+                    category: { en: "Home", ar: "الرئيسية" },
+                    preview: { 
+                        en: "Tallinding Islamic Institution - Quality Islamic education combined with academic excellence",
+                        ar: "معهد تلندينج الإسلامي - تعليم إسلامي عالي الجودة مقترن بالتميز الأكاديمي"
+                    },
+                    tab: "tab1",
+                    elementId: "welcome-section",
+                    keywords: ["welcome", "home", "islamic", "education", "institution", "مرحباً", "الرئيسية", "إسلامي", "تعليم"]
+                },
+                { 
+                    title: { en: "Our Mission", ar: "مهمتنا" },
+                    category: { en: "Home", ar: "الرئيسية" },
+                    preview: { 
+                        en: "Promoting Islamic morals and values - Fostering academic growth - Nurturing responsible citizenship",
+                        ar: "تعزيز الأخلاق والقيم الإسلامية - تعزيز النمو الأكاديمي - تنمية المواطنة المسؤولة"
+                    },
+                    tab: "tab1",
+                    elementId: "mission-section",
+                    keywords: ["mission", "values", "morals", "academic", "citizenship", "مهمة", "قيم", "أخلاق", "أكاديمي", "مواطنة"]
+                },
+                { 
+                    title: { en: "Our Vision", ar: "رؤيتنا" },
+                    category: { en: "Home", ar: "الرئيسية" },
+                    preview: { 
+                        en: "To be a leading Islamic educational institution producing well-rounded individuals",
+                        ar: "أن نكون مؤسسة تعليمية إسلامية رائدة تُخرج أفرادًا متكاملين"
+                    },
+                    tab: "tab1",
+                    elementId: "vision-section",
+                    keywords: ["vision", "leading", "individuals", "excellence", "رؤية", "رائدة", "أفراد", "تميز"]
+                },
+                
+                // About tab content
+                { 
+                    title: { en: "About Our Institute", ar: "عن المعهد" },
+                    category: { en: "About", ar: "عن المعهد" },
+                    preview: { 
+                        en: "Founded in 1963 - Serving the community with quality Islamic education",
+                        ar: "تأسس عام ١٩٦٣ - يخدم المجتمع بتعليم إسلامي عالي الجودة"
+                    },
+                    tab: "tab2",
+                    elementId: "about-section",
+                    keywords: ["about", "founded", "1963", "history", "community", "عن", "تأسس", "تاريخ", "مجتمع"]
+                },
+                { 
+                    title: { en: "The Gambia Islamic Union", ar: "اتحاد غامبيا الإسلامي" },
+                    category: { en: "Partnership", ar: "شراكة" },
+                    preview: { 
+                        en: "Partner in Excellence - Recognized by the Supreme Islamic Council",
+                        ar: "شريك في التميز - معترف به من قبل المجلس الإسلامي الأعلى"
+                    },
+                    tab: "tab2",
+                    elementId: "gambia-union-section",
+                    keywords: ["gambia", "union", "islamic union", "partnership", "council", "غامبيا", "اتحاد", "شراكة", "مجلس"]
+                },
+                
+                // Admission tab content
+                { 
+                    title: { en: "Admissions 2026", ar: "القبول ٢٠٢٦" },
+                    category: { en: "Admission", ar: "القبول" },
+                    preview: { 
+                        en: "Applications now open for the 2026 academic year",
+                        ar: "الطلبات الآن مفتوحة للعام الأكاديمي ٢٠٢٦"
+                    },
+                    tab: "tab3",
+                    elementId: "admission-section",
+                    keywords: ["admission", "apply", "2026", "applications", "enroll", "قبول", "تقديم", "تسجيل"]
+                },
+                { 
+                    title: { en: "Programs Offered", ar: "البرامج المقدمة" },
+                    category: { en: "Admission", ar: "القبول" },
+                    preview: { 
+                        en: "Quranic Studies, Tafsir, Hadith, Arabic Language, and more",
+                        ar: "القرآن الكريم، التفسير، الحديث، اللغة العربية، والمزيد"
+                    },
+                    tab: "tab3",
+                    elementId: "programs-section",
+                    keywords: ["programs", "courses", "quran", "tafsir", "hadith", "arabic", "برامج", "دورات", "قرآن", "تفسير", "حديث", "لغة"]
+                },
+                { 
+                    title: { en: "Required Documents", ar: "الوثائق المطلوبة" },
+                    category: { en: "Admission", ar: "القبول" },
+                    preview: { 
+                        en: "Birth certificate, Passport photos, Medical certificate, School reports",
+                        ar: "شهادة ميلاد، صور شخصية، شهادة طبية، تقارير مدرسية"
+                    },
+                    tab: "tab3",
+                    elementId: "documents-section",
+                    keywords: ["documents", "requirements", "birth certificate", "photos", "medical", "وثائق", "متطلبات", "شهادة", "صور"]
+                },
+                { 
+                    title: { en: "Application Deadline", ar: "الموعد النهائي" },
+                    category: { en: "Admission", ar: "القبول" },
+                    preview: { 
+                        en: "August 15, 2026 - Late applications considered case-by-case",
+                        ar: "١٥ أغسطس ٢٠٢٦ - يمكن النظر في الطلبات المتأخرة"
+                    },
+                    tab: "tab3",
+                    elementId: "deadline-section",
+                    keywords: ["deadline", "date", "august", "late", "موعد", "تاريخ", "أغسطس", "متأخر"]
+                },
+                
+                // News tab content
+                { 
+                    title: { en: "Graduation Ceremony 2026", ar: "حفل التخرج ٢٠٢٦" },
+                    category: { en: "Event", ar: "حدث" },
+                    preview: { 
+                        en: "Celebrating the achievements of our graduating class",
+                        ar: "الاحتفال بإنجازات الدفعة المتخرجة"
+                    },
+                    tab: "tab4",
+                    elementId: "graduation-news",
+                    keywords: ["graduation", "ceremony", "event", "class", "تخرج", "حفل", "حدث", "دفعة"]
+                },
+                { 
+                    title: { en: "New Academic Year Begins", ar: "بداية العام الأكاديمي الجديد" },
+                    category: { en: "Announcement", ar: "إعلان" },
+                    preview: { 
+                        en: "Registration now open - Secure your place today",
+                        ar: "التسجيل مفتوح الآن - احجز مقعدك اليوم"
+                    },
+                    tab: "tab4",
+                    elementId: "academic-year-news",
+                    keywords: ["academic year", "registration", "begin", "عام أكاديمي", "تسجيل", "بداية"]
+                },
+                { 
+                    title: { en: "Annual Quran Competition", ar: "مسابقة القرآن السنوية" },
+                    category: { en: "Competition", ar: "مسابقة" },
+                    preview: { 
+                        en: "Quran memorization and recitation competition for all levels",
+                        ar: "مسابقة حفظ وتلاوة القرآن لجميع المستويات"
+                    },
+                    tab: "tab4",
+                    elementId: "quran-competition-news",
+                    keywords: ["quran", "competition", "memorization", "recitation", "قرآن", "مسابقة", "حفظ", "تلاوة"]
+                },
+                { 
+                    title: { en: "Open Day", ar: "اليوم المفتوح" },
+                    category: { en: "Event", ar: "حدث" },
+                    preview: { 
+                        en: "Visit campus, meet teachers, learn about programs",
+                        ar: "زيارة الحرم الجامعي، لقاء المعلمين، التعرف على البرامج"
+                    },
+                    tab: "tab4",
+                    elementId: "open-day-news",
+                    keywords: ["open day", "campus", "visit", "teachers", "يوم مفتوح", "حرم", "زيارة", "معلمين"]
+                },
+                { 
+                    title: { en: "Newsletter Subscription", ar: "النشرة البريدية" },
+                    category: { en: "News", ar: "أخبار" },
+                    preview: { 
+                        en: "Subscribe to stay updated with latest news and events",
+                        ar: "اشترك لتبقى على اطلاع بآخر الأخبار والفعاليات"
+                    },
+                    tab: "tab4",
+                    elementId: "newsletter-section",
+                    keywords: ["newsletter", "subscribe", "email", "updates", "نشرة", "اشتراك", "بريد", "تحديثات"]
+                },
+                
+                // More tab content
+                { 
+                    title: { en: "Student Portal", ar: "بوابة الطالب" },
+                    category: { en: "Login", ar: "تسجيل الدخول" },
+                    preview: { 
+                        en: "Access your student account and view your information",
+                        ar: "الوصول إلى حسابك الطلابي وعرض معلوماتك"
+                    },
+                    tab: "tab5",
+                    elementId: "student-login",
+                    keywords: ["student", "portal", "login", "account", "طالب", "بوابة", "دخول", "حساب"]
+                },
+                { 
+                    title: { en: "Teacher Portal", ar: "بوابة المعلم" },
+                    category: { en: "Login", ar: "تسجيل الدخول" },
+                    preview: { 
+                        en: "Access your teacher account and manage your classes",
+                        ar: "الوصول إلى حسابك المعلم وإدارة فصولك"
+                    },
+                    tab: "tab5",
+                    elementId: "teacher-login",
+                    keywords: ["teacher", "portal", "login", "classes", "معلم", "بوابة", "دخول", "فصول"]
+                },
+                
+                // Footer content
+                { 
+                    title: { en: "Contact Information", ar: "معلومات الاتصال" },
+                    category: { en: "Footer", ar: "التذييل" },
+                    preview: { 
+                        en: "Phone: +220 9905171 | Email: tallindingislamicinstitutemaha@gmail.com",
+                        ar: "هاتف: +220 9905171 | بريد: tallindingislamicinstitutemaha@gmail.com"
+                    },
+                    tab: null,
+                    elementId: "footer",
+                    keywords: ["contact", "phone", "email", "call", "اتصال", "هاتف", "بريد"]
+                },
+                { 
+                    title: { en: "Social Media", ar: "وسائل التواصل" },
+                    category: { en: "Footer", ar: "التذييل" },
+                    preview: { 
+                        en: "Facebook, Instagram, YouTube",
+                        ar: "فيسبوك، انستغرام، يوتيوب"
+                    },
+                    tab: null,
+                    elementId: "footer",
+                    keywords: ["facebook", "instagram", "youtube", "social", "فيسبوك", "انستغرام", "يوتيوب", "تواصل"]
+                }
+            ];
+            
+            // Function to scroll to and highlight an element
+            function scrollToElementAndHighlight(elementId) {
+                if (!elementId) return;
+                
+                const element = document.getElementById(elementId);
+                if (element) {
+                    // Remove any existing highlight class
+                    document.querySelectorAll('.section-highlight').forEach(el => {
+                        el.classList.remove('section-highlight');
+                    });
+                    
+                    // Add highlight class
+                    element.classList.add('section-highlight');
+                    
+                    // Scroll to the element smoothly
+                    element.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center',
+                        inline: 'nearest'
+                    });
+                    
+                    // Remove highlight after animation
+                    setTimeout(() => {
+                        element.classList.remove('section-highlight');
+                    }, 2000);
+                }
+            }
             
             if (searchInput) {
-                // No focus/blur events that cause expansion
+                searchInput.addEventListener('input', function() {
+                    const query = this.value.trim().toLowerCase();
+                    const currentLang = document.querySelector('.lang-btn.active')?.getAttribute('data-lang') || 'ar';
+                    
+                    if (query.length < 2) {
+                        searchResults.classList.remove('active');
+                        return;
+                    }
+                    
+                    // Filter results based on query
+                    const results = searchDatabase.filter(item => {
+                        // Search in keywords
+                        return item.keywords.some(keyword => 
+                            keyword.toLowerCase().includes(query)
+                        );
+                    }).slice(0, 5); // Limit to 5 results
+                    
+                    // Display results
+                    if (results.length > 0) {
+                        let html = '';
+                        results.forEach(result => {
+                            const title = result.title[currentLang];
+                            const category = result.category[currentLang];
+                            const preview = result.preview[currentLang];
+                            
+                            html += `
+                                <div class="search-result-item" data-tab="${result.tab || ''}" data-element="${result.elementId || ''}" data-title="${title}">
+                                    <div class="result-category"><i class="fas fa-tag"></i> ${category}</div>
+                                    <div class="result-title"><i class="fas fa-circle" style="font-size: 8px; color: var(--primary-accent);"></i> ${title}</div>
+                                    <div class="result-preview">${preview}</div>
+                                </div>
+                            `;
+                        });
+                        searchResults.innerHTML = html;
+                        searchResults.classList.add('active');
+                        
+                        // Add click handlers to results
+                        document.querySelectorAll('.search-result-item').forEach(item => {
+                            item.addEventListener('click', function() {
+                                const tabId = this.dataset.tab;
+                                const elementId = this.dataset.element;
+                                
+                                // If the result has a tab ID, switch to that tab first
+                                if (tabId && tabId !== 'null' && tabId !== '') {
+                                    const tabItem = document.querySelector(`.tab-item[data-tab="${tabId}"]`);
+                                    if (tabItem) {
+                                        tabItem.click();
+                                        
+                                        // Small delay to ensure tab content is visible before scrolling
+                                        setTimeout(() => {
+                                            scrollToElementAndHighlight(elementId);
+                                        }, 100);
+                                    } else {
+                                        scrollToElementAndHighlight(elementId);
+                                    }
+                                } else {
+                                    // For footer items without a tab, just scroll to the element
+                                    scrollToElementAndHighlight(elementId);
+                                }
+                                
+                                // Clear search and close results
+                                searchInput.value = '';
+                                searchResults.classList.remove('active');
+                            });
+                        });
+                    } else {
+                        searchResults.innerHTML = `<div class="no-results"><i class="fas fa-search"></i> ${currentLang === 'en' ? 'No results found' : 'لا توجد نتائج'}</div>`;
+                        searchResults.classList.add('active');
+                    }
+                });
+                
+                // Close search results when clicking outside
+                document.addEventListener('click', function(e) {
+                    if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                        searchResults.classList.remove('active');
+                    }
+                });
+                
+                // Handle enter key - triggers search and selects first result
                 searchInput.addEventListener('keypress', (e) => {
                     if (e.key === 'Enter' && e.target.value.trim()) {
-                        const lang = document.querySelector('.lang-btn.active')?.getAttribute('data-lang') || 'ar';
-                        alert((lang === 'en' ? 'Searching for: ' : 'جاري البحث عن: ') + e.target.value);
+                        e.preventDefault();
+                        
+                        // If there are results, automatically select the first one
+                        const firstResult = document.querySelector('.search-result-item');
+                        if (firstResult) {
+                            firstResult.click();
+                        } else {
+                            // Just close results if no matches
+                            searchResults.classList.remove('active');
+                        }
+                    }
+                });
+                
+                // Clear results when input is cleared
+                searchInput.addEventListener('keyup', function() {
+                    if (this.value.trim() === '') {
+                        searchResults.classList.remove('active');
                     }
                 });
             }
